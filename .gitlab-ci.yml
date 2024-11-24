@@ -14,8 +14,14 @@ variables:
   PERFORMANCE_DISABLED: "true"
   CANARY_ENABLED: "false"
 
-# 保留 SAST 测试
+include:
+  - template: Security/SAST.gitlab-ci.yml
+
 sast:
   stage: test
-  include:
-    - template: Security/SAST.gitlab-ci.yml
+  script:
+    - /analyzer run
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"  # 只在合并请求时触发
+      when: always
+    - when: never  # 其他情况下不触发
