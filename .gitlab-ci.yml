@@ -2,9 +2,11 @@ variables:
   STAGING_ENABLED: "false"
   PRODUCTION_ENABLED: "false"
   DAST_DISABLED: "true"
+  AUTO_DEVOPS_BUILD_IMAGE_ENABLED: "false"
+  AUTO_DEVOPS_BUILD_ENABLED: "false"
 
 stages:
-#- build
+- build
 - test
 #- deploy
 #- review
@@ -20,6 +22,5 @@ stages:
 #- cleanup
 sast:
   stage: test
-
 include:
 - template: Auto-DevOps.gitlab-ci.yml
