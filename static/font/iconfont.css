@@ -1,0 +1,163 @@
+@font-face {
+  font-family: "iconfont"; /* Project id 4631208 */
+  src: url('./static/font/iconfont.woff2?t=1730942698564') format('woff2'),
+       url('./static/font/iconfont.woff?t=1730942698564') format('woff'),
+       url('./static/font/iconfont.ttf?t=1730942698564') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-guanji-copy:before {
+  content: "\e600";
+}
+
+.icon-shaixuan:before {
+  content: "\e671";
+}
+
+.icon-wode:before {
+  content: "\e63a";
+}
+
+.icon-kaiji:before {
+  content: "\e63b";
+}
+
+.icon-dianli:before {
+  content: "\e665";
+}
+
+.icon-chongdianzhan:before {
+  content: "\e779";
+}
+
+.icon-jiantou:before {
+  content: "\e62b";
+}
+
+.icon-jiantou2:before {
+  content: "\e81f";
+}
+
+.icon-add:before {
+  content: "\e620";
+}
+
+.icon-del2:before {
+  content: "\e81e";
+}
+
+.icon-tianjia:before {
+  content: "\e621";
+}
+
+.icon-del:before {
+  content: "\e70b";
+}
+
+.icon-dianhua1:before {
+  content: "\e602";
+}
+
+.icon-phone2:before {
+  content: "\e81c";
+}
+
+.icon-phone3:before {
+  content: "\e820";
+}
+
+.icon-phone1:before {
+  content: "\e81b";
+}
+
+.icon-editor2:before {
+  content: "\e81d";
+}
+
+.icon-check2:before {
+  content: "\e822";
+}
+
+.icon-pointer2:before {
+  content: "\e821";
+}
+
+.icon-address2:before {
+  content: "\e824";
+}
+
+.icon-editor:before {
+  content: "\e6d4";
+}
+
+.icon-dizhi:before {
+  content: "\e633";
+}
+
+.icon-dianhua:before {
+  content: "\e6a3";
+}
+
+.icon-shouji:before {
+  content: "\e643";
+}
+
+.icon-xinxi:before {
+  content: "\e60f";
+}
+
+.icon-pointer:before {
+  content: "\e797";
+}
+
+.icon-check:before {
+  content: "\e81a";
+}
+
+.icon-age:before {
+  content: "\e628";
+}
+
+.icon-bumen:before {
+  content: "\e634";
+}
+
+.icon-eye:before {
+  content: "\e60c";
+}
+
+.icon-xingbie:before {
+  content: "\e6e0";
+}
+
+.icon-address:before {
+  content: "\e60e";
+}
+
+.icon-zhicheng:before {
+  content: "\e74f";
+}
+
+.icon-dengji:before {
+  content: "\e729";
+}
+
+.icon-dingwei:before {
+  content: "\e69a";
+}
+
+.icon-gangwei:before {
+  content: "\e664";
+}
+
+.icon-sun:before {
+  content: "\e6e1";
+}
+
