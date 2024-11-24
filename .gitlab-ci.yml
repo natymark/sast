@@ -4,23 +4,19 @@ variables:
   DAST_DISABLED: "true"
   AUTO_DEVOPS_BUILD_IMAGE_ENABLED: "false"
   AUTO_DEVOPS_BUILD_ENABLED: "false"
+  REVIEW_DISABLED: "true"
+  AUTO_DEVOPS_DEPLOY_ENABLED: "false"
+  CODE_QUALITY_DISABLED: "true"
+  LICENSE_MANAGEMENT_DISABLED: "true"
+  PERFORMANCE_DISABLED: "true"
+  CANARY_ENABLED: "false"
 
 stages:
 - build
 - test
-#- deploy
-#- review
-#- dast
-#- staging
-#- canary
-#- production
-#- incremental rollout 10%
-#- incremental rollout 25%
-#- incremental rollout 50%
-#- incremental rollout 100%
-#- performance
-#- cleanup
+
 sast:
   stage: test
+
 include:
 - template: Auto-DevOps.gitlab-ci.yml
