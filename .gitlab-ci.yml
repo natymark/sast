@@ -1,19 +1,6 @@
 stages:
 - test
 
-variables:
-  STAGING_ENABLED: "false"
-  PRODUCTION_ENABLED: "false"
-  DAST_DISABLED: "true"
-  AUTO_DEVOPS_BUILD_IMAGE_ENABLED: "false"
-  AUTO_DEVOPS_BUILD_ENABLED: "false"
-  REVIEW_DISABLED: "true"
-  AUTO_DEVOPS_DEPLOY_ENABLED: "false"
-  CODE_QUALITY_DISABLED: "true"
-  LICENSE_MANAGEMENT_DISABLED: "true"
-  PERFORMANCE_DISABLED: "true"
-  CANARY_ENABLED: "false"
-
 include:
   - template: Security/SAST.gitlab-ci.yml
 
