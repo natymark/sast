@@ -6,9 +6,21 @@ include:
 
 sast:
   stage: test
+  image:
+    name: registry.gitlab.com/gitlab-org/security-products/analyzers/semgrep:5
+    entrypoint: [""]
   script:
     - /analyzer run
+  variables:
+    SAST_EXCLUDED_PATHS: "node_modules,dist,build,tests,coverage"
+    SEARCH_MAX_DEPTH: 20
+    SAST_EXCLUDED_ANALYZERS: "bandit-sast,eslint-sast,nodejs-scan-sast"
   rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"  # 只在合并请求时触发
-      when: always
-    - when: never  # 其他情况下不触发
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  allow_failure: true
+  tags:
+    - default_runner
+  artifacts:
+    reports:
+      sast: gl-sast-report.html
