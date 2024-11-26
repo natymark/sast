@@ -8,7 +8,7 @@ semgrep:
   # stage: test
   image: semgrep/semgrep
   script: 
-    - semgrep --config "p/nodejsscan"
+    - semgrep ci --config "p/nodejsscan"
     # - semgrep ci
   variables:
     SEMGREP_APP_TOKEN: "d57592bde84d566f083bf5cce6840b66e0a3c93f57a0f0a85ed1074693c5b8f0"
