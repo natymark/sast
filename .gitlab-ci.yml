@@ -1,11 +1,11 @@
-# stages:
-# - test
+stages:
+- test
 
 # include:
 #   - template: Security/SAST.gitlab-ci.yml
 
 semgrep:
-  # stage: test
+  stage: test
   image: semgrep/semgrep
   script: 
     - semgrep ci
