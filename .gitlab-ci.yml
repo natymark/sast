@@ -3,8 +3,8 @@ stages:
 
 semgrep:
   stage: test
-  script: 
-    - docker run --rm semgrep/semgrep semgrep ci
+  script:
+    - docker run -e d57592bde84d566f083bf5cce6840b66e0a3c93f57a0f0a85ed1074693c5b8f0 --rm -v "${PWD}:/src" semgrep/semgrep semgrep ci
   variables:
     SEMGREP_APP_TOKEN: "d57592bde84d566f083bf5cce6840b66e0a3c93f57a0f0a85ed1074693c5b8f0"
     SAST_EXCLUDED_PATHS: "node_modules,dist,build,tests,coverage"
