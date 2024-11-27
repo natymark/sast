@@ -1,27 +1,17 @@
 stages:
 - test
 
-# include:
-#   - template: Security/SAST.gitlab-ci.yml
-
 semgrep:
   stage: test
-  image:
-    name: semgrep/semgrep
-    pull_policy: never
   script: 
-    - semgrep ci
-    # - semgrep ci
+    - docker run --rm -v "${PWD}:/src" semgrep/semgrep semgrep ci
   variables:
     SEMGREP_APP_TOKEN: "d57592bde84d566f083bf5cce6840b66e0a3c93f57a0f0a85ed1074693c5b8f0"
     SAST_EXCLUDED_PATHS: "node_modules,dist,build,tests,coverage"
     SEARCH_MAX_DEPTH: 40
   rules:
-    - if: $CI_MERGE_REQUEST_IID  # scan on merge request events
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH  # scan on push events to default branch
+    - if: $CI_MERGE_REQUEST_IID
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
   allow_failure: true
   tags:
     - default_runner
-  # artifacts:
-  #   reports:
-      # sast: gl-sast-report.html
