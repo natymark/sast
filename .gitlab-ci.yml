@@ -3,8 +3,6 @@ stages:
 
 semgrep:
   stage: test
-  before_script:
-    - export DOCKER_HOST=npipe:////./pipe/docker_engine
   script: 
     - docker run --rm -v "$(pwd):/src" semgrep/semgrep semgrep ci
   variables:
