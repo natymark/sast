@@ -4,10 +4,11 @@ stages:
 semgrep:
   stage: test
   script:
-    - docker run -e SEMGREP_APP_TOKEN=cda24ebfdff99dbcd42314330bd0e3440e2f180247980b9b117a53975cf8d890 --rm -v "${PWD}:/src" semgrep/semgrep semgrep ci --verbose
+    - docker run -e SEMGREP_APP_TOKEN=cda24ebfdff99dbcd42314330bd0e3440e2f180247980b9b117a53975cf8d890 --rm -v "${PWD}:/src" semgrep/semgrep semgrep ci --verbose --timeout 120
   variables:
     SAST_EXCLUDED_PATHS: "node_modules,dist,build,tests,coverage"
     SEARCH_MAX_DEPTH: 40
+    SEMGREP_TIMEOUT_THRESHOLD: "5"
   rules:
     - if: $CI_MERGE_REQUEST_IID
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
