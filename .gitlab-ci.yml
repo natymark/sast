@@ -6,7 +6,9 @@ stages:
 
 semgrep:
   stage: test
-  image: semgrep/semgrep
+  image:
+    name: semgrep/semgrep
+    pull_policy: never
   script: 
     - semgrep ci
     # - semgrep ci
