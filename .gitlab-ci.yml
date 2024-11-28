@@ -4,7 +4,10 @@ stages:
 semgrep:
   stage: test
   script:
-    - docker run -e SEMGREP_APP_TOKEN=cda24ebfdff99dbcd42314330bd0e3440e2f180247980b9b117a53975cf8d890 --rm -v "${PWD}:/src" semgrep/semgrep semgrep ci --verbose --timeout 120
+    - docker run -e SEMGREP_APP_TOKEN=cda24ebfdff99dbcd42314330bd0e3440e2f180247980b9b117a53975cf8d890 --rm -v "${PWD}:/src" semgrep/semgrep semgrep ci --verbose --timeout 120 --json > semgrep-results.json
+    - mkdir -p public/security-report
+    - docker run --rm -v "${PWD}:/src" my-semgrep-formatter prospector-html --input semgrep-results.json --output public/security-report/index.html --filter semgrep
+
   variables:
     SAST_EXCLUDED_PATHS: "node_modules,dist,build,tests,coverage"
     SEARCH_MAX_DEPTH: 40
@@ -15,3 +18,8 @@ semgrep:
   allow_failure: true
   tags:
     - default_runner
+
+  artifacts:
+    paths:
+      - public
+    when: always
