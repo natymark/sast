@@ -5,7 +5,7 @@ semgrep:
   stage: test
   script:
     - dir "D:/Program Files/gitlab-runner/sast-rules"
-    - docker run --rm -v "${PWD}:/src" -v "D:/Program Files/gitlab-runner/sast-rules:/rules" semgrep/semgrep semgrep scan --config /rules --disable-version-check --verbose --debug --timeout 300 --json > semgrep-results.json
+    - docker run --rm -v "${PWD}:/src" -v "D:/Program Files/gitlab-runner/sast-rules:/rules" semgrep/semgrep semgrep scan --config /rules/rules --disable-version-check --verbose --timeout 300 --json > semgrep-results.json
     - mkdir -p public/security-report
     - docker run --rm -v "${PWD}:/src" my-semgrep-formatter prospector-html --input semgrep-results.json --output public/security-report/index.html --filter semgrep
 
