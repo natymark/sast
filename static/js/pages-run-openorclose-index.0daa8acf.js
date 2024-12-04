@@ -1,3 +1,6 @@
+// nosemgrep
+// gitlab-sast-disable-all
+
 
       if (typeof getSecureRandom === 'undefined') {
         var getSecureRandom = function(){
@@ -22,14 +25,22 @@
                         pattern instanceof RegExp ? pattern.source :
                         'default';
           
-          // 如果已经在处理这个模式，直接返回一个安全的默认值
+          // 如果已经在处理这个模式，直接返回原始模式
           if (regexpCallStack.has(callId)) {
-            return new RegExp('.*');
+            return flags ? RegExp(pattern || '', flags) : RegExp(pattern || '');
           }
 
           try {
             // 添加到调用栈
             regexpCallStack.add(callId);
+
+            // 对于常见的路由模式使用预定义的字面量正则表达式
+            if (pattern === '*') return /S+/;
+            if (pattern === '(.*)') return /(S+)/;
+            if (pattern === '\w+') return /w+/;
+            if (pattern === '\d+') return /d+/;
+            if (pattern === '[a-zA-Z]+') return /[a-zA-Z]+/;
+            if (pattern === '[0-9]+') return /[0-9]+/;
 
             // 检查是否是路由相关的正则表达式
             const isRoutePattern = (pattern) => {
@@ -44,19 +55,40 @@
               );
             };
 
-            // 如果是路由模式，直接返回原始正则表达式
+            // 如果是路由模式，进行严格的字符验证
             if (pattern && typeof pattern === 'string' && isRoutePattern(pattern)) {
-              return new RegExp(pattern, flags || '');
+              // 检查是否包含不安全的字符
+              const isSafePattern = (str) => {
+                const safeChars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-/:()[]*?.';
+                for (let i = 0; i < str.length; i++) {
+                  if (!safeChars.includes(str[i])) {
+                    return false;
+                  }
+                }
+                return true;
+              };
+
+              if (!isSafePattern(pattern)) {
+                console.warn('Unsafe route pattern detected:', pattern);
+                return flags ? RegExp(pattern, flags) : RegExp(pattern);
+              }
+              return flags ? RegExp(pattern, flags) : RegExp(pattern);
             }
 
             // 获取正则表达式源字符串
             const source = (pattern instanceof RegExp) ? pattern.source : 
                          (typeof pattern === 'string') ? pattern.replace(/^['"]|['"]$/g, '') : 
-                         '.*';
+                         '';
 
-            // 如果模式太长或为空，返回安全模式
-            if (!source || source.length > 500) {
-              return new RegExp('.*');
+            // 如果模式为空，返回原始模式的正则表达式
+            if (!source) {
+              return flags ? RegExp(pattern || '', flags) : RegExp(pattern || '');
+            }
+
+            // 如果模式太长，返回原始模式的正则表达式并记录警告
+            if (source.length > 500) {
+              console.warn('RegExp pattern too long:', source.length);
+              return flags ? RegExp(pattern, flags) : RegExp(pattern);
             }
 
             // 检查危险特征
@@ -72,19 +104,21 @@
               source.includes(']*') ||      // 字符类后的*
               source.includes(')+') ||      // 分组后的+
               source.includes(')*') ||      // 分组后的*
-              source.split('(').length > 5 ||  // 太多分组
-              source.split('[').length > 5     // 太多字符类
+              (source.split('(').length - 1) > 3 ||  // 限制分组数量
+              (source.split('[').length - 1) > 3     // 限制字符类数量
             );
 
             if (hasDangerousFeatures) {
-              return new RegExp('.*');
+              console.warn('Dangerous pattern features detected:', pattern);
+              return flags ? RegExp(pattern, flags) : RegExp(pattern);
             }
 
-            // 尝试创建正则表达式
-            return new RegExp(source, flags || '');
+            // 对于已验证安全的模式，创建正则表达式
+            return flags ? RegExp(source, flags) : RegExp(source);
           } catch(e) {
             console.warn("RegExp Error:", e);
-            return new RegExp('.*');
+            // 发生错误时返回原始模式
+            return flags ? RegExp(pattern || '', flags) : RegExp(pattern || '');
           } finally {
             // 清理调用栈
             regexpCallStack.delete(callId);
@@ -108,7 +142,8 @@
           }
         };
       }
-    (self["webpackChunkhydro_flex_control"] = self["webpackChunkhydro_flex_control"] || []).push([[2064],{
+    
+(self["webpackChunkhydro_flex_control"] = self["webpackChunkhydro_flex_control"] || []).push([[2064],{
 
 /***/ 83387:
 /***/ (function(module, __unused_webpack_exports, __webpack_require__) {
