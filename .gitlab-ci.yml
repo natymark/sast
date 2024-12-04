@@ -1,0 +1,26 @@
+stages:
+- test
+
+semgrep:
+  stage: test
+  script:
+    - dir "D:/Program Files/gitlab-runner/sast-rules"
+    - docker run --rm -v "${PWD}:/src" -v "D:/Program Files/gitlab-runner/sast-rules:/rules" semgrep/semgrep semgrep scan --config /rules/rules --disable-version-check --verbose --timeout 300 --json > semgrep-results.json
+    - mkdir -p public/security-report
+    - docker run --rm -v "${PWD}:/src" my-semgrep-formatter prospector-html --input semgrep-results.json --output public/security-report/index.html --filter semgrep
+
+  variables:
+    SAST_EXCLUDED_PATHS: "node_modules,dist,build,tests,coverage"
+    SEARCH_MAX_DEPTH: 40
+    SEMGREP_TIMEOUT_THRESHOLD: "5"
+  rules:
+    - if: $CI_MERGE_REQUEST_IID
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  allow_failure: true
+  tags:
+    - default_runner
+
+  artifacts:
+    paths:
+      - public
+    when: always
